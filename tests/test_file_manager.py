@@ -74,3 +74,25 @@ class TestParseCSVFile:
             parse_csv_file(csv_content)
 
 
+class TestGetFileInfo:
+    """Tests for get_file_info function."""
+    
+    def test_get_file_info_returns_correct_metadata(self):
+        """Test that file info returns correct metadata."""
+        df = pd.DataFrame({
+            "name": ["John", "Jane"],
+            "age": [25, 30],
+            "score": [85, 90]
+        })
+        info = get_file_info(df)
+        assert info["row_count"] == 2
+        assert info["column_count"] == 3
+        assert set(info["columns"]) == {"name", "age", "score"}
+        assert info["memory_usage"] > 0
+    
+    def test_get_file_info_empty_dataframe(self):
+        """Test file info for empty DataFrame."""
+        df = pd.DataFrame()
+        info = get_file_info(df)
+        assert info["row_count"] == 0
+        assert info["column_count"] == 0
