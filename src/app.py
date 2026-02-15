@@ -266,4 +266,4 @@ def main():
     st.markdown("<center>**Student Performance Analyzer** | Built with Streamlit, DuckDB, and Plotly<center/>", unsafe_allow_html=True)
 
 
-    
+if __name__ == "__main__":
