@@ -68,3 +68,25 @@ class FilterEngine:
         
         return " AND ".join(conditions) if conditions else ""
     
+    def apply_filters(self, base_query: str, filters: Dict[str, Any]) -> str:
+        """
+        Apply filters to a SQL query.
+        
+        Args:
+            base_query: Base SQL query (should not include WHERE clause)
+            filters: Dictionary of filter specifications
+        
+        Returns:
+            Complete SQL query with filters applied
+        """
+        where_clause = self.build_filter_query(filters)
+        
+        if not where_clause:
+            return base_query
+        
+        # Check if query already has WHERE clause
+        if "WHERE" in base_query.upper():
+            return f"{base_query} AND {where_clause}"
+        else:
+            return f"{base_query} WHERE {where_clause}"
+    
