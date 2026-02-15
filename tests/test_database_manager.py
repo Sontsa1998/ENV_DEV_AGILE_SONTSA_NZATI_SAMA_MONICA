@@ -96,3 +96,33 @@ class TestDatabaseManager:
         """Test closing database connection."""
         db_manager.close()
         assert db_manager.connection is None
+
+
+class TestHandleDuplicates:
+    """Tests for handle_duplicates function."""
+    
+    def test_keep_first_duplicate(self):
+        """Test keeping first occurrence of duplicates."""
+        df = pd.DataFrame({
+            "id": [1, 1, 2, 2, 3],
+            "name": ["Alice", "Alice", "Bob", "Bob", "Charlie"]
+        })
+        result = handle_duplicates(df, subset=["id"], keep="first")
+        assert len(result) == 3
+        assert list(result["id"]) == [1, 2, 3]
+    
+    def test_keep_last_duplicate(self):
+        """Test keeping last occurrence of duplicates."""
+        df = pd.DataFrame({
+            "id": [1, 1, 2, 2, 3],
+            "name": ["Alice", "Alice", "Bob", "Bob", "Charlie"]
+        })
+        result = handle_duplicates(df, subset=["id"], keep="last")
+        assert len(result) == 3
+        assert list(result["id"]) == [1, 2, 3]
+    
+    def test_invalid_keep_parameter_raises_error(self):
+        """Test that invalid keep parameter raises ValueError."""
+        df = pd.DataFrame({"id": [1, 1, 2]})
+        with pytest.raises(ValueError):
+            handle_duplicates(df, keep="invalid")
