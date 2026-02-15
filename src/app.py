@@ -244,3 +244,26 @@ def render_kpi_section():
         st.error(f"Error rendering KPIs: {str(e)}")
 
 
+def main():
+    """Main application entry point."""
+    render_header()
+    
+    st.divider()
+    
+    render_upload_section()
+    
+    st.divider()
+    
+    render_filter_section()
+    
+    st.divider()
+    
+    render_kpi_section()
+    
+    st.divider()
+    
+    st.markdown("---")
+    st.markdown("<center>**Student Performance Analyzer** | Built with Streamlit, DuckDB, and Plotly<center/>", unsafe_allow_html=True)
+
+
+    
