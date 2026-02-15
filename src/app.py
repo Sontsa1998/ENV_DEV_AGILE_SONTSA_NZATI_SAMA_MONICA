@@ -177,3 +177,70 @@ def render_filter_section():
         st.rerun()
 
 
+def render_kpi_section():
+    """Display all four KPI visualizations."""
+    if not st.session_state.data_loaded:
+        st.info("📌 Upload data files first to view KPIs")
+        return
+    
+    st.header("📈 Indicateurs de Performance Clés")
+    
+    try:
+        kpi_calc = KPICalculator(st.session_state.db_manager, st.session_state.filters)
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("KPI 1: Score Moyen par Groupe")
+            try:
+                data_kpi1 = kpi_calc.calculate_kpi_1_scores_by_group()
+                if not data_kpi1.empty:
+                    fig1 = VisualizationEngine.create_kpi_1_chart(data_kpi1)
+                    st.plotly_chart(fig1, use_container_width=True)
+                else:
+                    st.info("No data available for this KPI")
+            except Exception as e:
+                st.error(f"Error calculating KPI 1: {str(e)}")
+        
+        with col2:
+            st.subheader("KPI 2: Corrélation des heures d’étude")
+            try:
+                data_kpi2 = kpi_calc.calculate_kpi_2_study_correlation()
+                if not data_kpi2.empty:
+                    fig2 = VisualizationEngine.create_kpi_2_chart(data_kpi2)
+                    st.plotly_chart(fig2, use_container_width=True)
+                else:
+                    st.info("No data available for this KPI")
+            except Exception as e:
+                st.error(f"Error calculating KPI 2: {str(e)}")
+        
+        col3, col4 = st.columns(2)
+        
+        with col3:
+            st.subheader("KPI 3: Impact de l’assiduité")
+            try:
+                data_kpi3 = kpi_calc.calculate_kpi_3_attendance_impact()
+                if not data_kpi3.empty:
+                    fig3 = VisualizationEngine.create_kpi_3_chart(data_kpi3)
+                    st.plotly_chart(fig3, use_container_width=True)
+                else:
+                    st.info("No data available for this KPI")
+            except Exception as e:
+                st.error(f"Error calculating KPI 3: {str(e)}")
+        
+        with col4:
+            st.subheader("KPI 4: Performance liée au sommeil")
+            try:
+                data_kpi4 = kpi_calc.calculate_kpi_4_sleep_performance()
+                if not data_kpi4.empty:
+                    fig4 = VisualizationEngine.create_kpi_4_chart(data_kpi4)
+                    st.plotly_chart(fig4, use_container_width=True)
+                else:
+                    st.info("No data available for this KPI")
+            except Exception as e:
+                st.error(f"Error calculating KPI 4: {str(e)}")
+    
+    except Exception as e:
+        st.error(f"Error rendering KPIs: {str(e)}")
+
+
