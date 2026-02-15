@@ -48,3 +48,29 @@ class TestValidateCSVStructure:
         assert is_valid is False
 
 
+class TestParseCSVFile:
+    """Tests for parse_csv_file function."""
+    
+    def test_parse_valid_csv(self):
+        """Test parsing a valid CSV file."""
+        csv_content = "name,age,score\nJohn,25,85\nJane,30,90"
+        df = parse_csv_file(csv_content)
+        assert len(df) == 2
+        assert list(df.columns) == ["name", "age", "score"]
+        assert df.iloc[0]["name"] == "John"
+    
+    def test_parse_csv_with_missing_values(self):
+        """Test parsing CSV with missing values."""
+        csv_content = "name,age,score\nJohn,25,\nJane,,90"
+        df = parse_csv_file(csv_content)
+        assert len(df) == 2
+        assert pd.isna(df.iloc[0]["score"])
+        assert pd.isna(df.iloc[1]["age"])
+    
+    def test_parse_invalid_csv_raises_error(self):
+        """Test that parsing invalid CSV raises ValueError."""
+        csv_content = ""  # Empty content should raise error
+        with pytest.raises(ValueError):
+            parse_csv_file(csv_content)
+
+
