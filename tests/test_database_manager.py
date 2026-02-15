@@ -126,3 +126,26 @@ class TestHandleDuplicates:
         df = pd.DataFrame({"id": [1, 1, 2]})
         with pytest.raises(ValueError):
             handle_duplicates(df, keep="invalid")
+
+
+class TestRemoveAllDuplicates:
+    """Tests for remove_all_duplicates function."""
+    
+    def test_remove_all_duplicates(self):
+        """Test removing all duplicate records."""
+        df = pd.DataFrame({
+            "id": [1, 1, 2, 2, 3],
+            "name": ["Alice", "Alice", "Bob", "Bob", "Charlie"]
+        })
+        result = remove_all_duplicates(df, subset=["id"])
+        assert len(result) == 1
+        assert result.iloc[0]["id"] == 3
+    
+    def test_remove_all_duplicates_no_duplicates(self):
+        """Test removing duplicates when none exist."""
+        df = pd.DataFrame({
+            "id": [1, 2, 3],
+            "name": ["Alice", "Bob", "Charlie"]
+        })
+        result = remove_all_duplicates(df, subset=["id"])
+        assert len(result) == 3
