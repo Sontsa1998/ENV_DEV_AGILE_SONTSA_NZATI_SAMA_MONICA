@@ -162,3 +162,11 @@ class FilterEngine:
         
         return len(errors) == 0, errors
     
+    def clear_filters(self) -> Dict[str, Any]:
+        """
+        Clear all filters.
+        
+        Returns:
+            Empty filter dictionary
+        """
+        return {}
