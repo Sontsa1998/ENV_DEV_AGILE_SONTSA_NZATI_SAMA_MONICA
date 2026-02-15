@@ -1,272 +1,221 @@
-# 🚗⚡ Tableau de Bord Analytique des Véhicules Électriques
+# Student Performance Analyzer
 
-## 📋 Présentation du Projet
+An interactive web application for analyzing student performance data using Streamlit, DuckDB, and Plotly.
 
-Ce projet est une application web interactive développée avec **Streamlit** qui permet d'analyser les données des véhicules électriques. L'application offre une interface conviviale pour explorer les performances des véhicules électriques à travers quatre indicateurs clés de performance (KPI) distincts.
+## Overview
 
-### Objectifs Principaux
+The Student Performance Analyzer enables educators and administrators to:
+- Upload and manage student performance data from CSV files
+- Store data efficiently using DuckDB
+- Apply dynamic filters to focus on specific student groups
+- Visualize four key performance indicators (KPIs)
+- Explore relationships between study habits and academic performance
 
-1. **Lecture des données CSV** : Charger les données du fichier `electric_vehicles_spec_2025.csv`
-2. **Stockage avec DuckDB** : Stocker et interroger les données localement avec DuckDB
-3. **Visualisations interactives** : Afficher quatre KPI différents avec des visualisations pertinentes
-4. **Filtrage dynamique** : Filtrer les résultats par marque, segment et type de carrosserie
+## Features
 
-## 🎯 Fonctionnalités
+### 1. Data Upload
+- Upload CSV files containing student performance data
+- Automatic validation of file structure and required columns
+- Support for multiple data sources with automatic merging
 
-### 1. Chargement des Données
-- Interface de téléchargement de fichier CSV
-- Validation et chargement automatique dans DuckDB
-- Affichage du nombre de véhicules chargés
+### 2. Dynamic Filtering
+- Filter by gender, age range, parental education level, and more
+- Apply multiple filters simultaneously with AND logic
+- Real-time visualization updates
 
-### 2. Filtrage Dynamique
-- **Filtre par Marque** : Sélectionner une ou plusieurs marques
-- **Filtre par Segment** : Filtrer par catégorie de véhicule
-- **Filtre par Type de Carrosserie** : Choisir le type de carrosserie (Sedan, SUV, Hatchback, etc.)
-- Logique **AND** : Tous les filtres s'appliquent simultanément
+### 3. Key Performance Indicators
+- **KPI 1**: Average exam scores by demographic group
+- **KPI 2**: Correlation between study hours and exam performance
+- **KPI 3**: Impact of attendance on exam scores
+- **KPI 4**: Relationship between sleep hours and academic performance
 
-### 3. Quatre Indicateurs Clés (KPI)
+### 4. Interactive Visualizations
+- Interactive charts using Plotly
+- Hover information for detailed data exploration
+- Responsive design for different screen sizes
 
-#### KPI 1 : Plage Moyenne par Segment
-- **Visualisation** : Graphique en barres
-- **Données** : Autonomie moyenne (km) pour chaque segment
-- **Utilité** : Comparer l'autonomie entre les différents segments
+## Installation
 
-#### KPI 2 : Accélération Moyenne par Marque
-- **Visualisation** : Graphique en barres
-- **Données** : Temps d'accélération 0-100 km/h moyen par marque
-- **Utilité** : Comparer les performances d'accélération entre marques
+### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
 
-#### KPI 3 : Capacité Batterie vs Efficacité Énergétique
-- **Visualisation** : Graphique de dispersion (scatter plot)
-- **Données** : Relation entre capacité batterie (kWh) et efficacité (Wh/km)
-- **Couleurs** : Différenciation par segment
-- **Utilité** : Identifier les corrélations entre batterie et efficacité
+### Setup
 
-#### KPI 4 : Distribution par Type de Carrosserie
-- **Visualisation** : Graphique en camembert (pie chart)
-- **Données** : Nombre et pourcentage de véhicules par type
-- **Utilité** : Comprendre la composition du dataset
-
-## 🛠️ Technologies Utilisées
-
-- **Streamlit** : Framework pour l'interface web interactive
-- **DuckDB** : Base de données SQL embarquée pour le stockage et les requêtes
-- **Pandas** : Manipulation et analyse des données
-- **Plotly** : Visualisations interactives
-- **Python 3.8+** : Langage de programmation
-
-## 📦 Installation
-
-### Prérequis
-- Python 3.8 ou supérieur
-- pip (gestionnaire de paquets Python)
-
-### Étapes d'Installation
-
-1. **Cloner le dépôt** (ou télécharger les fichiers)
+1. Clone the repository:
 ```bash
-git clone <url-du-depot>
-cd ev-analytics-dashboard
+git clone <repository-url>
+cd student-performance-analyzer
 ```
 
-2. **Créer un environnement virtuel** (recommandé)
+2. Create a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # Sur Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. **Installer les dépendances**
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-## 🚀 Utilisation
+## Usage
 
-### Lancer l'Application
-
-```bash
-streamlit run main.py
-```
-
-L'application s'ouvrira automatiquement dans votre navigateur à l'adresse `http://localhost:8501`
-
-### Workflow Typique
-
-1. **Charger les données**
-   - Cliquez sur "Charger les données"
-   - Sélectionnez le fichier `electric_vehicles_spec_2025.csv`
-   - Cliquez sur "Charger les données"
-
-2. **Appliquer les filtres** (optionnel)
-   - Utilisez la barre latérale pour sélectionner les filtres
-   - Les visualisations se mettent à jour automatiquement
-
-3. **Explorer les KPI**
-   - Consultez les quatre visualisations dans la grille 2x2
-   - Survolez les graphiques pour voir les détails
-
-4. **Réinitialiser**
-   - Cliquez sur "Effacer les données" pour recommencer
-   - Cliquez sur "Actualiser" pour rafraîchir l'affichage
-
-## 📊 Structure des Données
-
-Le fichier CSV contient les colonnes suivantes :
-
-| Colonne | Type | Description |
-|---------|------|-------------|
-| brand | VARCHAR | Marque du véhicule |
-| model | VARCHAR | Modèle du véhicule |
-| top_speed_kmh | DECIMAL | Vitesse maximale (km/h) |
-| battery_capacity_kWh | DECIMAL | Capacité batterie (kWh) |
-| battery_type | VARCHAR | Type de batterie |
-| number_of_cells | INTEGER | Nombre de cellules |
-| torque_nm | DECIMAL | Couple moteur (Nm) |
-| efficiency_wh_per_km | DECIMAL | Efficacité énergétique (Wh/km) |
-| range_km | DECIMAL | Autonomie (km) |
-| acceleration_0_100_s | DECIMAL | Accélération 0-100 km/h (s) |
-| fast_charging_power_kw_dc | DECIMAL | Puissance charge rapide (kW) |
-| fast_charge_port | VARCHAR | Type de port de charge |
-| towing_capacity_kg | DECIMAL | Capacité de remorquage (kg) |
-| cargo_volume_l | DECIMAL | Volume de cargo (litres) |
-| seats | INTEGER | Nombre de sièges |
-| drivetrain | VARCHAR | Type de transmission |
-| segment | VARCHAR | Segment du véhicule |
-| length_mm | DECIMAL | Longueur (mm) |
-| width_mm | DECIMAL | Largeur (mm) |
-| height_mm | DECIMAL | Hauteur (mm) |
-| car_body_type | VARCHAR | Type de carrosserie |
-| source_url | VARCHAR | URL source des données |
-
-## 🧪 Tests Unitaires
-
-### Exécuter les Tests
+### Running the Application
 
 ```bash
-pytest tests/ -v
+streamlit run src/app.py
 ```
 
-### Exécuter les Tests avec Couverture
+The application will open in your default web browser at `http://localhost:8501`
 
-```bash
-pytest tests/ --cov=src --cov-report=html
-```
+### Uploading Data
 
-### Structure des Tests
+1. Navigate to the "Data Upload" section
+2. Upload `student_habits_performance.csv`
+3. Upload `StudentPerformanceFactors.csv`
+4. The application will validate and import the data
 
-- **test_database.py** : Tests du module de base de données
-  - Chargement CSV
-  - Requêtes avec filtres
-  - Calculs des KPI
-  - Gestion des données
+### Analyzing Data
 
-- **test_filters.py** : Tests du module de filtrage
-  - Récupération des filtres disponibles
-  - Application des filtres
-  - Résumés des filtres
+1. Use the "Filters" section to refine your analysis
+2. Select specific demographics, age ranges, or other criteria
+3. View the four KPI visualizations that update in real-time
+4. Hover over data points for detailed information
 
-- **test_visualizations.py** : Tests du module de visualisations
-  - Génération des graphiques
-  - Gestion des données vides
-  - Validation des titres
-
-## 📁 Structure du Projet
+## Project Structure
 
 ```
-ev-analytics-dashboard/
+student-performance-analyzer/
 ├── src/
 │   ├── __init__.py
-│   ├── app.py                 # Application Streamlit principale
-│   ├── database.py            # Gestion DuckDB
-│   ├── filters.py             # Gestion des filtres
-│   └── visualizations.py      # Moteur de visualisations
+│   ├── app.py                      # Main Streamlit application
+│   ├── file_manager.py             # CSV file handling
+│   ├── database_manager.py         # DuckDB integration
+│   ├── filter_engine.py            # Dynamic filtering
+│   ├── kpi_calculator.py           # KPI calculations
+│   └── visualization_engine.py     # Plotly visualizations
 ├── tests/
 │   ├── __init__.py
-│   ├── test_database.py       # Tests de la base de données
-│   ├── test_filters.py        # Tests des filtres
-│   └── test_visualizations.py # Tests des visualisations
-├── main.py                    # Point d'entrée
-├── requirements.txt           # Dépendances Python
-├── README.md                  # Ce fichier
-└── electric_vehicles_spec_2025.csv  # Données
+│   ├── conftest.py                 # Pytest configuration
+│   ├── test_file_manager.py        # File manager tests
+│   ├── test_database_manager.py    # Database manager tests
+│   ├── test_filter_engine.py       # Filter engine tests
+│   ├── test_kpi_calculator.py      # KPI calculator tests
+│   └── test_visualization_engine.py # Visualization tests
+├── data/                           # Data directory
+├── requirements.txt                # Python dependencies
+└── README.md                       # This file
 ```
 
-## 👥 Répartition des Tâches (Équipe de 4)
+## Data Format
 
-### Membre 1 : Architecture et Base de Données
-- Conception de l'architecture générale
-- Implémentation du module `database.py`
-- Configuration de DuckDB et des schémas
-- Tests unitaires pour la base de données
+### student_habits_performance.csv
 
-### Membre 2 : Interface Utilisateur
-- Développement de l'application Streamlit (`app.py`)
-- Mise en page et design de l'interface
-- Gestion des états de session
-- Intégration des composants
+Required columns:
+- `student_id`: Unique student identifier
+- `age`: Student age
+- `gender`: Student gender
+- `study_hours_per_day`: Daily study hours
+- `social_media_hours`: Daily social media hours
+- `netflix_hours`: Daily Netflix hours
+- `part_time_job`: Whether student has part-time job
+- `attendance_percentage`: Class attendance percentage
+- `sleep_hours`: Daily sleep hours
+- `diet_quality`: Quality of diet
+- `exercise_frequency`: Exercise frequency
+- `parental_education_level`: Parent's education level
+- `internet_quality`: Internet connection quality
+- `mental_health_rating`: Mental health rating
+- `extracurricular_participation`: Participation in extracurricular activities
+- `exam_score`: Final exam score
 
-### Membre 3 : Visualisations et Filtres
-- Implémentation du module `visualizations.py`
-- Création des quatre KPI
-- Développement du module `filters.py`
-- Tests des visualisations et filtres
+### StudentPerformanceFactors.csv
 
-### Membre 4 : Tests et Documentation
-- Écriture des tests unitaires complets
-- Documentation du code
-- Rédaction du README
-- Validation et assurance qualité
+Required columns:
+- `Hours_Studied`: Total hours studied
+- `Attendance`: Attendance percentage
+- `Parental_Involvement`: Level of parental involvement
+- `Access_to_Resources`: Access to learning resources
+- `Extracurricular_Activities`: Participation in activities
+- `Sleep_Hours`: Daily sleep hours
+- `Previous_Scores`: Previous exam scores
+- `Motivation_Level`: Student motivation level
+- `Internet_Access`: Whether student has internet access
+- `Tutoring_Sessions`: Number of tutoring sessions
+- `Family_Income`: Family income level
+- `Teacher_Quality`: Quality of teaching
+- `School_Type`: Type of school
+- `Peer_Influence`: Influence of peers
+- `Physical_Activity`: Physical activity level
+- `Learning_Disabilities`: Whether student has learning disabilities
+- `Parental_Education_Level`: Parent's education level
+- `Distance_from_Home`: Distance from home to school
+- `Gender`: Student gender
+- `Exam_Score`: Final exam score
 
-## 🔧 Configuration Avancée
+## Testing
 
-### Variables d'Environnement
+### Running Tests
 
-Aucune variable d'environnement requise pour le fonctionnement de base.
-
-### Personnalisation
-
-Pour modifier les filtres disponibles, éditez la méthode `get_available_filters()` dans `src/filters.py`.
-
-## 🐛 Dépannage
-
-### L'application ne démarre pas
 ```bash
-# Vérifier que Streamlit est installé
-pip install streamlit
+# Run all tests
+pytest
 
-# Vérifier la version de Python
-python --version
+# Run with verbose output
+pytest -v
+
+# Run specific test file
+pytest tests/test_file_manager.py
+
+# Run with coverage report
+pytest --cov=src tests/
 ```
 
-### Erreur lors du chargement du CSV
-- Vérifiez que le fichier CSV a le bon format
-- Assurez-vous que toutes les colonnes requises sont présentes
-- Vérifiez l'encodage du fichier (UTF-8 recommandé)
+### Test Structure
 
-### Les visualisations ne s'affichent pas
-- Vérifiez que les données sont chargées
-- Vérifiez que les filtres ne sont pas trop restrictifs
-- Essayez de réinitialiser avec le bouton "Effacer les données"
+- **Unit Tests**: Test specific functions and edge cases
+- **Property-Based Tests**: Test universal properties across random inputs using Hypothesis
 
-## 📈 Améliorations Futures
+## Performance
 
-- [ ] Export des données filtrées en CSV
-- [ ] Graphiques supplémentaires (histogrammes, heatmaps)
-- [ ] Comparaison de deux segments
-- [ ] Analyse de tendances temporelles
-- [ ] Authentification utilisateur
-- [ ] Sauvegarde des filtres favoris
+- Handles datasets up to 100,000 rows
+- Query execution within 2 seconds
+- Filter updates within 1 second
+- Import operations within 5 seconds for files up to 50MB
 
-## 📝 Licence
+## Error Handling
 
-Ce projet est fourni à titre éducatif.
+The application includes comprehensive error handling for:
+- Invalid CSV file formats
+- Missing required columns
+- Invalid data types
+- Database connection errors
+- Insufficient data for visualizations
 
-## 📞 Support
+## Contributing
 
-Pour toute question ou problème, veuillez consulter la documentation ou contacter l'équipe de développement.
+When contributing to this project:
+1. Follow PEP 8 style guidelines
+2. Include type hints for all functions
+3. Add docstrings to all modules and functions
+4. Write tests for new functionality
+5. Ensure all tests pass before submitting
+
+## License
+
+This project is part of a group assignment for educational purposes.
+
+## Support
+
+For issues or questions, please contact the development team.
 
 ---
 
-**Dernière mise à jour** : 2024
-**Version** : 1.0.0
-**Statut** : Production
+**Built with:**
+- [Streamlit](https://streamlit.io/) - Web application framework
+- [DuckDB](https://duckdb.org/) - SQL database engine
+- [Pandas](https://pandas.pydata.org/) - Data manipulation
+- [Plotly](https://plotly.com/) - Interactive visualizations
+- [Pytest](https://pytest.org/) - Testing framework
+- [Hypothesis](https://hypothesis.readthedocs.io/) - Property-based testing
