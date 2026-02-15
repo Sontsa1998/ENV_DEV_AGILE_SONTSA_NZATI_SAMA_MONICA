@@ -19,3 +19,11 @@ from filter_engine import FilterEngine
 from kpi_calculator import KPICalculator
 from visualization_engine import VisualizationEngine
 
+# Configure Streamlit page
+st.set_page_config(
+    page_title="Analyse de Performance des Etudiants",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
