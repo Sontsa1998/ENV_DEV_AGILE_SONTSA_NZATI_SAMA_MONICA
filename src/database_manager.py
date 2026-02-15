@@ -10,6 +10,7 @@ import pandas as pd
 import duckdb
 from pathlib import Path
 
+
 class DatabaseManager:
     """Manages DuckDB database connections and operations."""
     
@@ -65,7 +66,7 @@ class DatabaseManager:
             self.connection.unregister(table_name)
         except Exception as e:
             raise RuntimeError(f"Failed to import data into table '{table_name}': {str(e)}")
-       
+    
     def execute_query(self, query: str) -> pd.DataFrame:
         """
         Execute a SQL query and return results as DataFrame.
@@ -184,3 +185,50 @@ class DatabaseManager:
             on_column: Column name to merge on
             output_table: Name of output table
         
+        Raises:
+            RuntimeError: If merge operation fails
+        """
+        try:
+            query = f"""
+            CREATE TABLE {output_table} AS
+            SELECT * FROM {table1}
+            FULL OUTER JOIN {table2}
+            ON {table1}.{on_column} = {table2}.{on_column}
+            """
+            self.connection.execute(query)
+        except Exception as e:
+            raise RuntimeError(f"Failed to merge tables: {str(e)}")
+
+
+
+def handle_duplicates(df: pd.DataFrame, subset: Optional[List[str]] = None, 
+                     keep: str = "first") -> pd.DataFrame:
+    """
+    Handle duplicate records in a DataFrame.
+    
+    Args:
+        df: pandas DataFrame to process
+        subset: Column names to consider for identifying duplicates. If None, all columns are used.
+        keep: Which duplicates to keep ('first', 'last', or False to remove all)
+    
+    Returns:
+        DataFrame with duplicates handled according to strategy
+    """
+    if keep not in ["first", "last"]:
+        raise ValueError("keep must be 'first' or 'last'")
+    
+    return df.drop_duplicates(subset=subset, keep=keep)
+
+
+def remove_all_duplicates(df: pd.DataFrame, subset: Optional[List[str]] = None) -> pd.DataFrame:
+    """
+    Remove all duplicate records from a DataFrame.
+    
+    Args:
+        df: pandas DataFrame to process
+        subset: Column names to consider for identifying duplicates
+    
+    Returns:
+        DataFrame with all duplicates removed
+    """
+    return df.drop_duplicates(subset=subset, keep=False)
