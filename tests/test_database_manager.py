@@ -1,3 +1,4 @@
+"""
 Unit tests for database_manager module.
 """
 
@@ -19,3 +20,13 @@ class TestDatabaseManager:
     def db_manager(self):
         """Create an in-memory database manager for testing."""
         return DatabaseManager(":memory:")
+
+    @pytest.fixture
+    def sample_df(self):
+        """Create a sample DataFrame for testing."""
+        return pd.DataFrame({
+            "id": [1, 2, 3, 4, 5],
+            "name": ["Alice", "Bob", "Charlie", "David", "Eve"],
+            "age": [25, 30, 35, 28, 32],
+            "score": [85, 90, 78, 92, 88]
+        })
