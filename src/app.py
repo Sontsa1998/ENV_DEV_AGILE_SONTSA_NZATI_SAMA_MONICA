@@ -134,3 +134,46 @@ def render_upload_section():
             st.error(f"❌ Error processing files: {str(e)}")
 
 
+def render_filter_section():
+    """Display dynamic filter controls."""
+    if not st.session_state.data_loaded:
+        st.info("📌 Upload data files first to enable filtering")
+        return
+    
+    st.header("🔍 Filtres")
+    st.markdown("Appliquer les filtres pour profiler votre analyse.")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        gender_options = ["All"]
+        try:
+            filter_engine = FilterEngine(st.session_state.db_manager)
+            if st.session_state.db_manager.table_exists("student_habits_performance"):
+                gender_options.extend(filter_engine.get_filter_options("student_habits_performance", "gender"))
+        except:
+            pass
+        
+        selected_gender = st.selectbox("Gender", gender_options)
+        if selected_gender != "All":
+            st.session_state.filters["gender"] = selected_gender
+        elif "gender" in st.session_state.filters:
+            del st.session_state.filters["gender"]
+    
+    with col2:
+        age_range = st.slider("Age Range", 17, 24, (17, 24))
+        st.session_state.filters["age"] = age_range
+    
+    with col3:
+        education_options = ["All", "High School", "Bachelor", "Master", "Postgraduate", "None"]
+        selected_education = st.selectbox("Parental Education", education_options)
+        if selected_education != "All":
+            st.session_state.filters["parental_education_level"] = selected_education
+        elif "parental_education_level" in st.session_state.filters:
+            del st.session_state.filters["parental_education_level"]
+    
+    if st.button("Clear Filters"):
+        st.session_state.filters = {}
+        st.rerun()
+
+
