@@ -134,3 +134,31 @@ class FilterEngine:
         except Exception as e:
             raise RuntimeError(f"Failed to get range for {column_name}: {str(e)}")
     
+    def validate_filters(self, filters: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        """
+        Validate filter specifications.
+        
+        Args:
+            filters: Dictionary of filter specifications
+        
+        Returns:
+            Tuple of (is_valid, error_messages)
+        """
+        errors = []
+        
+        for key, value in filters.items():
+            if value is None:
+                continue
+            
+            if isinstance(value, list):
+                if len(value) == 0:
+                    errors.append(f"Filter '{key}' has empty list")
+            
+            elif isinstance(value, tuple):
+                if len(value) != 2:
+                    errors.append(f"Filter '{key}' range must have exactly 2 values")
+                elif value[0] > value[1]:
+                    errors.append(f"Filter '{key}' range start is greater than end")
+        
+        return len(errors) == 0, errors
+    
