@@ -52,3 +52,47 @@ class TestDatabaseManager:
         with pytest.raises(ValueError):
             db_manager.import_data(sample_df, "invalid-table-name!")
     
+    def test_execute_query_returns_dataframe(self, db_manager, sample_df):
+        """Test that query execution returns DataFrame."""
+        db_manager.import_data(sample_df, "test_table")
+        result = db_manager.execute_query("SELECT * FROM test_table")
+        assert isinstance(result, pd.DataFrame)
+        assert len(result) == 5
+    
+    def test_execute_empty_query_raises_error(self, db_manager):
+        """Test that empty query raises ValueError."""
+        with pytest.raises(ValueError):
+            db_manager.execute_query("")
+    
+    def test_get_available_tables(self, db_manager, sample_df):
+        """Test retrieving list of available tables."""
+        db_manager.import_data(sample_df, "table1")
+        db_manager.import_data(sample_df, "table2")
+        tables = db_manager.get_available_tables()
+        assert "table1" in tables
+        assert "table2" in tables
+    
+    def test_get_table_info(self, db_manager, sample_df):
+        """Test retrieving table metadata."""
+        db_manager.import_data(sample_df, "test_table")
+        info = db_manager.get_table_info("test_table")
+        assert info["row_count"] == 5
+        assert info["column_count"] == 4
+        assert len(info["columns"]) == 4
+    
+    def test_table_exists(self, db_manager, sample_df):
+        """Test checking if table exists."""
+        db_manager.import_data(sample_df, "test_table")
+        assert db_manager.table_exists("test_table") is True
+        assert db_manager.table_exists("nonexistent") is False
+    
+    def test_delete_table(self, db_manager, sample_df):
+        """Test deleting a table."""
+        db_manager.import_data(sample_df, "test_table")
+        db_manager.delete_table("test_table")
+        assert db_manager.table_exists("test_table") is False
+    
+    def test_close_connection(self, db_manager):
+        """Test closing database connection."""
+        db_manager.close()
+        assert db_manager.connection is None
