@@ -52,3 +52,18 @@ if "data_loaded" not in st.session_state:
     st.session_state.data_loaded = False
 
 
+def render_header():
+    """Display application title and description."""
+    st.title("📊 Student Performance Analyzer")
+    st.subheader("MEMBRE DU GROUPE : SONTSA CHRISTIAN - NZATI STEPHANE - SAMA CAMELIA - MBOULA MONICA")
+    st.markdown("""
+    Bienvenue dans l’Analyseur de performance des étudiants ! Cette application aide les enseignants et les administrateurs à analyser les données de performance des étudiants grâce à des visualisations interactives et des filtres dynamiques.
+    Fonctionnalités :
+    <br/>- Importer et gérer les données de performance des étudiants
+    <br/>- Appliquer des filtres dynamiques pour cibler des groupes d’étudiants spécifiques
+    <br/>- Consulter quatre indicateurs clés de performance (KPI)
+    <br/>- Explorer les relations entre les habitudes d’étude et les performances académiques
+    """, unsafe_allow_html=True
+)
+
+
