@@ -90,3 +90,24 @@ class FilterEngine:
         else:
             return f"{base_query} WHERE {where_clause}"
     
+    def get_filter_options(self, table_name: str, column_name: str) -> List[Any]:
+        """
+        Get available values for a column to use in filters.
+        
+        Args:
+            table_name: Name of the table
+            column_name: Name of the column
+        
+        Returns:
+            List of unique values in the column
+        
+        Raises:
+            RuntimeError: If query fails
+        """
+        try:
+            query = f"SELECT DISTINCT {column_name} FROM {table_name} ORDER BY {column_name}"
+            result = self.db_manager.execute_query(query)
+            return result[column_name].tolist()
+        except Exception as e:
+            raise RuntimeError(f"Failed to get filter options for {column_name}: {str(e)}")
+    
