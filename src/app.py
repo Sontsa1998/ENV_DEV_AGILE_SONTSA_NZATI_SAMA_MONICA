@@ -41,3 +41,14 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# Initialize session state
+if "db_manager" not in st.session_state:
+    st.session_state.db_manager = DatabaseManager(":memory:")
+
+if "filters" not in st.session_state:
+    st.session_state.filters = {}
+
+if "data_loaded" not in st.session_state:
+    st.session_state.data_loaded = False
+
+
