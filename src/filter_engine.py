@@ -111,3 +111,26 @@ class FilterEngine:
         except Exception as e:
             raise RuntimeError(f"Failed to get filter options for {column_name}: {str(e)}")
     
+    def get_column_range(self, table_name: str, column_name: str) -> Tuple[float, float]:
+        """
+        Get min and max values for a numeric column.
+        
+        Args:
+            table_name: Name of the table
+            column_name: Name of the numeric column
+        
+        Returns:
+            Tuple of (min_value, max_value)
+        
+        Raises:
+            RuntimeError: If query fails
+        """
+        try:
+            query = f"SELECT MIN({column_name}) as min_val, MAX({column_name}) as max_val FROM {table_name}"
+            result = self.db_manager.execute_query(query)
+            min_val = result["min_val"].iloc[0]
+            max_val = result["max_val"].iloc[0]
+            return (float(min_val), float(max_val))
+        except Exception as e:
+            raise RuntimeError(f"Failed to get range for {column_name}: {str(e)}")
+    
